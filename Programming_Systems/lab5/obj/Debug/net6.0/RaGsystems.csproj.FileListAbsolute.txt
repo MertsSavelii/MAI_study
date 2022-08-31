@@ -1,0 +1,52 @@
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGsystems.exe
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGsystems.deps.json
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGsystems.runtimeconfig.json
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGsystems.pdb
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGlib.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/bin/Debug/net6.0/RaGlib.pdb
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.AssemblyReference.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.GeneratedMSBuildEditorConfig.editorconfig
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.AssemblyInfoInputs.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.AssemblyInfo.cs
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.CoreCompileInputs.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.CopyComplete
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/refint/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.pdb
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/RaGsystems.genruntimeconfig.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/RaGsystems/RaGsystems/obj/Debug/net6.0/ref/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.AssemblyReference.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.GeneratedMSBuildEditorConfig.editorconfig
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.AssemblyInfoInputs.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.AssemblyInfo.cs
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.CoreCompileInputs.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/refint/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.pdb
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGsystems.exe
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGsystems.deps.json
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGsystems.runtimeconfig.json
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGsystems.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGsystems.pdb
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/bin/Debug/net6.0/RaGlib.dll
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.csproj.CopyComplete
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/RaGsystems.genruntimeconfig.cache
+D:/MYLIBRARY/0. Courses/Course_Compiler/Recognising and Generating Software Systems (rag-systems)/For students/RaGsystems/obj/Debug/net6.0/ref/RaGsystems.dll
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGsystems
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGsystems.deps.json
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGsystems.runtimeconfig.json
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGsystems.dll
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGsystems.pdb
+/Users/savelijmerc/Documents/GitHub/SP/lab5/bin/Debug/net6.0/RaGlib.dll
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.csproj.AssemblyReference.cache
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.GeneratedMSBuildEditorConfig.editorconfig
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.AssemblyInfoInputs.cache
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.AssemblyInfo.cs
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.csproj.CoreCompileInputs.cache
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.csproj.CopyComplete
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.dll
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/refint/RaGsystems.dll
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.pdb
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/RaGsystems.genruntimeconfig.cache
+/Users/savelijmerc/Documents/GitHub/SP/lab5/obj/Debug/net6.0/ref/RaGsystems.dll
