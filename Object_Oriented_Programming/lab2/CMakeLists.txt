@@ -1,0 +1,1 @@
+add_executable(oop_exercise_02 main.cpp)
