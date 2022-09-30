@@ -2,7 +2,7 @@
 #define T_B_SUFF_TREE_HPP
 
 #include <vector>
-#include <string>
+#include <string.h>
 
 struct SuffTreeChilds
 {
@@ -16,6 +16,13 @@ class SuffTree
     private:
         std::vector<SuffTreeChilds> childs_;
     public:
+        SuffTree(std::string in_str) {
+            for(int i = 0; i < in_str.l)
+        }
+        ~SuffTree();
+        Insert(std::string in_string) {
+
+        }
 };
 
 class SuffTreeChild
@@ -26,7 +33,11 @@ private:
     std::string stored_string_;
     std::vector<SuffTreeChilds> childs_;
 public:
-    SuffTreeChild(std::string in);
+    SuffTreeChild(std::string in_string, int num_list) {
+        is_list_ = true;
+        num_list_ = num_list;
+        stored_string_ = in_string;
+    }
     ~SuffTreeChild();
 };
 
