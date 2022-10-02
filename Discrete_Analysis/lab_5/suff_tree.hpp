@@ -18,12 +18,9 @@ class SuffTree
                 suff_tree_.Insert(in_str.substr(i), i + 1);
             }
         }
-        ~SuffTree() {
-            // не уверен что нужно это писать
-            // for (auto child : childs_.LinkToChild) {
-            //     delete(child);
-            //     delete this;
-            // }
+        ~SuffTree();
+        bool SubstringSearch() {
+
         }
 };
 

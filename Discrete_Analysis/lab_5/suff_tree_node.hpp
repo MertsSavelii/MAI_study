@@ -13,44 +13,44 @@ private:
     std::string stored_string_;
     std::map<char, SuffTreeNode*> childs_;
 
-    void ForkNode(std::string in_str, int num_list) {
-        for(int last_match = 0; last_match < stored_string_.length() - 1; ++last_match) {
-            if(in_str[last_match + 1] != stored_string_[last_match + 1]) {
-                // обрубок от этой ноды
-                SuffTreeNode part_of_this(stored_string_.substr(last_match), num_list_);
-                part_of_this.is_list_ = false;
-                part_of_this.childs_ = childs_;
-
-                SuffTreeNode insert_node(in_str.substr(last_match), num_list);
-                // изменение этой ноды
-                is_list_ = false;
-                num_list_ = 0;
-                stored_string_ = stored_string_.substr(0, last_match);
-                childs_.clear();
-                childs_.emplace(stored_string_[last_match + 1], &part_of_this);
-                childs_.emplace(in_str[last_match + 1], &insert_node);
-                break;
-            }
-        }
-    }
     bool IsPrefixOfChild(std::string in_str) {
-        return childs_.find(in_str[0]) != childs_.end();
+        int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
+        return childs_.find(in_str.substr(first_mismath)[0]) != childs_.end();
     }
     SuffTreeNode* FindChildByPrefix(std::string in_str) {
-        return childs_.find(in_str[0])->second;
+        int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
+        return childs_.find(in_str.substr(first_mismath)[0])->second;
     }
-    void AddNewListChild(std::string in_str, int num_list) {
-        if(stored_string_.length() == 0) {
-            SuffTreeNode insert_node(in_str, num_list);
-            childs_.emplace(in_str[0], &insert_node);
+    int IndxOfFirstDiffFromStoredStr(std::string in_str) {
+        int first_mismatch = 0;
+        for(; stored_string_[first_mismatch] == in_str[first_mismatch]; first_mismatch++);
+        return first_mismatch;
+    }
+    void SplitNode(int split_indx) {
+        SuffTreeNode* cut_off_part = new SuffTreeNode(stored_string_.substr(split_indx), num_list_);
+        cut_off_part->childs_ = childs_;
+
+        is_list_ = false;
+        num_list_ = 0;
+        stored_string_ = stored_string_.substr(0, split_indx);
+        childs_.clear();
+        childs_.emplace(cut_off_part->stored_string_[0], cut_off_part);
+    }
+    void AddNewChild(std::string in_str, int num_list) {
+        is_list_ = false;
+        num_list_ = 0; // на всякий случай
+        childs_.emplace(in_str[0], new SuffTreeNode(in_str, num_list));
+    }
+    void ForkNode(std::string in_str, int first_mismath, int num_list) {
+        SplitNode(first_mismath);
+        AddNewChild(in_str.substr(first_mismath), num_list);
+    }
+    void AddNewNode(std::string in_str, int num_list) {    
+        int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
+        if(first_mismath < stored_string_.length()) {
+            ForkNode(in_str, first_mismath, num_list);
         } else {
-            for(int last_match = 0; last_match < stored_string_.length() - 1; ++last_match) {
-                if(in_str[last_match + 1] != stored_string_[last_match + 1]) {
-                    SuffTreeNode insert_node(in_str.substr(last_match), num_list);
-                    childs_.emplace(in_str.substr(last_match)[0], &insert_node);
-                    break;
-                }
-            }
+            AddNewChild(in_str.substr(first_mismath), num_list);
         }
     }
 public:
@@ -63,16 +63,13 @@ public:
         num_list_ = num_list;
         stored_string_ = in_str;
     }
-    ~SuffTreeNode() {}
-    void Insert(std::string in_str, int num_list){
-        if(in_str.length() < stored_string_.length()) {
-            ForkNode(in_str, num_list);
+    ~SuffTreeNode();
+    void Insert(std::string in_str, int num_list) {
+        if (IsPrefixOfChild(in_str)) {
+            int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
+            FindChildByPrefix(in_str)->Insert(in_str.substr(first_mismath), num_list);
         } else {
-            if (IsPrefixOfChild(in_str)) {
-                FindChildByPrefix(in_str)->Insert(in_str, num_list);
-            } else {
-                AddNewListChild(in_str, num_list);
-            }
+            AddNewNode(in_str, num_list);
         }
     }
 };
