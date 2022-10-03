@@ -9,7 +9,7 @@ class SuffTreeNode
 {
 private:
     bool is_list_;
-    int num_list_;
+    unsigned num_list_;
     std::string stored_string_;
     std::map<char, SuffTreeNode*> childs_;
 
@@ -38,7 +38,6 @@ private:
     }
     void AddNewChild(std::string in_str, int num_list) {
         is_list_ = false;
-        num_list_ = 0; // на всякий случай
         childs_.emplace(in_str[0], new SuffTreeNode(in_str, num_list));
     }
     void ForkNode(std::string in_str, int first_mismath, int num_list) {
@@ -63,13 +62,32 @@ public:
         num_list_ = num_list;
         stored_string_ = in_str;
     }
-    ~SuffTreeNode();
+    ~SuffTreeNode(){}
     void Insert(std::string in_str, int num_list) {
-        if (IsPrefixOfChild(in_str)) {
+        if(IsPrefixOfChild(in_str)) {
             int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
             FindChildByPrefix(in_str)->Insert(in_str.substr(first_mismath), num_list);
         } else {
             AddNewNode(in_str, num_list);
+        }
+    }
+    void SubstringSearchInNode(std::string in_str, std::vector<unsigned>& ans) {
+        int first_mismath = IndxOfFirstDiffFromStoredStr(in_str);
+        if (first_mismath >= in_str.length()) {
+            if(in_str.length() != 0) {
+                in_str = in_str.substr(first_mismath - 1);
+            }
+            if(is_list_) {
+                ans.push_back(num_list_);
+            }
+            for(auto it = childs_.begin(); it != childs_.end(); it++) {
+                it->second->SubstringSearchInNode(in_str, ans);
+            }
+            return;
+        }
+        if(IsPrefixOfChild(in_str)) {
+            in_str = in_str.substr(first_mismath);
+            FindChildByPrefix(in_str)->SubstringSearchInNode(in_str, ans);
         }
     }
 };

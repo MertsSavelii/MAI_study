@@ -18,9 +18,14 @@ class SuffTree
                 suff_tree_.Insert(in_str.substr(i), i + 1);
             }
         }
-        ~SuffTree();
-        bool SubstringSearch() {
-
+        ~SuffTree(){}
+        std::vector<unsigned> SubstringSearch(std::string in_str) {
+            std::vector<unsigned> ans;
+            if(in_str.length() == 0) {
+                return ans;
+            }
+            suff_tree_.SubstringSearchInNode(in_str, ans);
+            return ans;
         }
 };
 
