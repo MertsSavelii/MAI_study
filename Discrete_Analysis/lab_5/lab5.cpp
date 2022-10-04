@@ -5,21 +5,25 @@
 int main() {
     std::string in_str;
     std::cin >> in_str;
-    SuffTree tree(in_str);
+    SuffTree tree;
+    tree.Insert(in_str);
     std::string in_substr;
     int i = 1;
     while (std::cin >> in_substr) {
-        std::cout << i << ": ";
-        std::vector<unsigned> ans = tree.SubstringSearch(in_substr);
+        std::vector<unsigned> ans;
+        tree.Find(in_substr, ans);
         std::sort(ans.begin(), ans.end());
-        for(int j = 0; j < ans.size(); ++j) {
-            std::cout << ans[j] << ' ';
-            if (j + 1 < ans.size()){
-                std::cout << ", ";
+        if(!ans.empty())
+        {
+            std::cout << i << ": ";
+            for(int j = 0; j < ans.size(); ++j) {
+                std::cout << ans[j] << ' ';
+                if (j + 1 < ans.size()){
+                    std::cout << ", ";
+                }
             }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
         i++;
     }
-    return 0;
 }
