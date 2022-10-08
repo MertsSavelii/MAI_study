@@ -6,12 +6,12 @@ from matplotlib.widgets import Button
 
 def TransparentON(event):
     axis.add_collection3d(Poly3DCollection(
-        frame, facecolors=[1, 0.4, 0.3], alpha=0.7, linewidths=1, edgecolors='black'))
+        frame, facecolors=[0.5, 0.4, 0.3], alpha=0.7, linewidths=1, edgecolors='black'))
 
 
 def TransparentOFF(event):
     axis.add_collection3d(Poly3DCollection(
-        frame, facecolors=[1, 0.4, 0.3], alpha=1, linewidths=1, edgecolors='black'))
+        frame, facecolors=[0.5, 0.4, 0.3], alpha=1, linewidths=1, edgecolors='black'))
 
 
 fig = plt.figure('Мерц Савелий. Вариант №14. Лабораторная работа №2', figsize=(7, 6))
@@ -31,37 +31,31 @@ xC = 0
 yC = 0
 zC = 0
 R = 10
-H = 2
+H = 15
 
 p = np.array([
-    [xC + R * np.cos(2 * np.pi * 1 / 7), yC + R * np.sin(2 * np.pi * 1 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 2 / 7), yC + R * np.sin(2 * np.pi * 2 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 3 / 7), yC + R * np.sin(2 * np.pi * 3 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 4 / 7), yC + R * np.sin(2 * np.pi * 4 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 5 / 7), yC + R * np.sin(2 * np.pi * 5 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 6 / 7), yC + R * np.sin(2 * np.pi * 6 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 7 / 7), yC + R * np.sin(2 * np.pi * 7 / 7), 0],
-    [xC + R * np.cos(2 * np.pi * 1 / 7), yC + R * np.sin(2 * np.pi * 1 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 2 / 7), yC + R * np.sin(2 * np.pi * 2 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 3 / 7), yC + R * np.sin(2 * np.pi * 3 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 4 / 7), yC + R * np.sin(2 * np.pi * 4 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 5 / 7), yC + R * np.sin(2 * np.pi * 5 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 6 / 7), yC + R * np.sin(2 * np.pi * 6 / 7), H],
-    [xC + R * np.cos(2 * np.pi * 7 / 7), yC + R * np.sin(2 * np.pi * 7 / 7), H],
-
-
+    [xC - R, yC, zC],
+    [xC - 0.5 * R, yC - 3**0.5 / 2 * R, zC],
+    [xC + 0.5 * R, yC - 3**0.5 / 2 * R, zC],
+    [xC + R, yC, zC],
+    [xC + 0.5 * R, yC + 3**0.5 / 2 * R, zC],
+    [xC - 0.5 * R, yC + 3**0.5 / 2 * R, zC],
+    [xC - R + 4, yC, zC + H],
+    [xC - 0.5 * R + 4, yC - 3 ** 0.5 / 2 * R, zC + H],
+    [xC + 0.5 * R + 4, yC - 3 ** 0.5 / 2 * R, zC + H],
+    [xC + R + 4, yC, zC + H],
+    [xC + 0.5 * R + 4, yC + 3 ** 0.5 / 2 * R, zC + H],
+    [xC - 0.5 * R + 4, yC + 3 ** 0.5 / 2 * R, zC + H]
 ])
 frame = [
-    [p[0], p[1], p[2], p[3], p[4], p[5], p[6]],
-    [p[7], p[8], p[9], p[10], p[11], p[12], p[13]],
-    [p[0], p[1], p[8], p[7]],
-    [p[1], p[2], p[9], p[8]],
-    [p[2], p[3], p[10], p[9]],
-    [p[3], p[4], p[11], p[10]],
-    [p[4], p[5], p[12], p[11]],
-    [p[5], p[6], p[13], p[12]],
-    [p[6], p[0], p[7], p[13]],
-
+    [p[0], p[1], p[2], p[3], p[4], p[5]],
+    [p[6], p[7], p[8], p[9], p[10], p[11]],
+    [p[0], p[1], p[7], p[6]],
+    [p[1], p[2], p[8], p[7]],
+    [p[2], p[3], p[9], p[8]],
+    [p[3], p[4], p[10], p[9]],
+    [p[4], p[5], p[11], p[10]],
+    [p[5], p[0], p[6], p[11]],
 ]
 
 axis.scatter3D(p[:, 0], p[:, 1], p[:, 2], color='black')
