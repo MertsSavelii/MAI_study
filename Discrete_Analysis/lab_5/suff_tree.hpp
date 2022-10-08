@@ -37,8 +37,8 @@ private:
         {
             ans.push_back(num_list_);
         }
-        if(next_bro_ != nullptr) next_bro_->FindAllListsInChild(ans);
         if(child_ != nullptr) child_->FindAllListsInChild(ans);
+        if(next_bro_ != nullptr) next_bro_->FindAllListsInChild(ans);
     }
 public:
     SuffTreeNode(unsigned in_start, unsigned in_finish, unsigned in_num_list)
@@ -57,29 +57,32 @@ public:
     void Insert(unsigned in_start, unsigned in_finish, unsigned in_num_list)
     {
         find_str = stored_str.substr(in_start, in_finish);
-        unsigned max_prefix_indx = MaxPrefix(in_start, in_finish, stored_start_, stored_finish_);
-        if(max_prefix_indx == 0)
+        if(stored_str[in_start] != stored_str[stored_start_])
         {
             if(next_bro_ == nullptr) next_bro_ = new SuffTreeNode(in_start, in_finish, in_num_list);
             else next_bro_->Insert(in_start, in_finish, in_num_list);
         }
-        else if(max_prefix_indx < in_finish - in_start)
+        else 
         {
-            if(max_prefix_indx < stored_finish_ - stored_start_) Split(max_prefix_indx + stored_start_);
-            if(child_ == nullptr) child_ = new SuffTreeNode(in_start + max_prefix_indx, in_finish, in_num_list);
-            else child_->Insert(in_start + max_prefix_indx, in_finish, in_num_list);
+            unsigned max_prefix_indx = MaxPrefix(in_start, in_finish, stored_start_, stored_finish_);
+            if(max_prefix_indx < in_finish - in_start)
+            {
+                if(max_prefix_indx < stored_finish_ - stored_start_) Split(max_prefix_indx + stored_start_);
+                if(child_ == nullptr) child_ = new SuffTreeNode(in_start + max_prefix_indx, in_finish, in_num_list);
+                else child_->Insert(in_start + max_prefix_indx, in_finish, in_num_list);
+            }
         }
     }
     void Find(std::string in_str, std::vector<unsigned>& ans)
     {
         find_str = in_str;
-        unsigned max_prefix_indx = MaxPrefix(0, in_str.length(), stored_start_, stored_finish_);
-        if(max_prefix_indx == 0)
+        if(find_str[0] != stored_str[stored_start_])
         {
             if(next_bro_ == nullptr) return;
             else next_bro_->Find(in_str, ans);
             return;
         }
+        unsigned max_prefix_indx = MaxPrefix(0, in_str.length(), stored_start_, stored_finish_);
         if(max_prefix_indx == in_str.length())
         {
             if(child_!=nullptr) child_->FindAllListsInChild(ans);
