@@ -1,6 +1,6 @@
 #include <iostream>
-#include "suff_tree.hpp"
 #include <algorithm>
+#include "suff_tree.hpp"
 
 int main() {
     std::string in_str;
