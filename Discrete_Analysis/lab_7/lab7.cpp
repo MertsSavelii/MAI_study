@@ -1,46 +1,66 @@
+#include <bitset>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
-struct item
-{
-    int worth = 0;
-    std::vector<int> subset;
-};
+const size_t MAX_N = 100;
 
-int main()
-{
-    int n, m, wi, ci;
-    std::vector<int> W, C;
-    std::vector<std::vector<item>> I;
+int main() {
+    int n, m;
     std::cin >> n >> m;
-    item it;
-    I.resize(n + 1);
-    I[0].resize(m + 1, it);
-    for(int i = 0; i < n; ++i)
-    {
-        std::cin >> wi >> ci;
-        W.push_back(wi);
-        C.push_back(ci);
-        I[i+1].resize(m + 1,it);
+    std::vector<int> w(n);
+    std::vector<long long> c(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> w[i] >> c[i];
     }
-    for(int i = 1; i <= n; ++i)
-        for(int j = 0; j <= m; ++j)
-        {
-            if(j >= W[i - 1]) {
-                int power_subset = I[i-1][j - W[i-1]].subset.size();
-                if(power_subset == 0)
-                    power_subset = 1;
-                if(I[i-1][j].worth > (I[i-1][j - W[i-1]].worth + C[i-1]) * power_subset)
-                    I[i][j] = I[i-1][j];
-                else {
-                    I[i][j].worth = I[i-1][j - W[i-1]].worth + C[i-1];
-                    I[i][j].subset = I[i-1][j - W[i-1]].subset;
-                    I[i][j].subset.push_back(i);
+   
+    std::vector<std::vector<long long>> dpPrev(n + 1, std::vector<long long>(m + 1));
+    std::vector<std::vector<std::bitset<MAX_N>>> setPrev(n + 1, std::vector<std::bitset<MAX_N>>(m + 1)); 
+    long long ans = 0;
+    std::bitset<MAX_N> res;
+ 
+    for (int j = 1; j < n + 1; ++j) {
+        for (int k = 1; k < m + 1; ++k) {
+            dpPrev[j][k] = dpPrev[j - 1][k];
+            setPrev[j][k] = setPrev[j - 1][k];
+            if (c[j - 1] > dpPrev[j][k] and k - w[j - 1] == 0) {
+                dpPrev[j][k] = c[j - 1];
+                setPrev[j][k] = 0;
+                setPrev[j][k][j - 1] = 1;
+            }
+            if (dpPrev[j][k] > ans) {
+                ans = dpPrev[j][k];
+                res = setPrev[j][k];
+            }
+        }
+    }
+    std::vector<std::vector<long long>> dpCur(n + 1, std::vector<long long>(m + 1));
+    std::vector<std::vector<std::bitset<MAX_N>>> setCur(n + 1, std::vector<std::bitset<MAX_N>>(m + 1));
+    for (long long i = 2; i < n + 1; ++i) {
+        for (int j = 1; j < n + 1; ++j) {
+            for (int k = 1; k < m + 1; ++k) {
+                dpCur[j][k] = dpCur[j - 1][k];
+                setCur[j][k] = setCur[j - 1][k];
+                if (k - w[j - 1] > 0 and dpPrev[j - 1][k - w[j - 1]] > 0) {
+                    if (i * (c[j - 1] + dpPrev[j - 1][k - w[j - 1]] / (i - 1)) > dpCur[j][k]) {
+                        dpCur[j][k] = i * (c[j - 1] + dpPrev[j - 1][k - w[j - 1]] / (i - 1));
+                        setCur[j][k] = setPrev[j - 1][k - w[j - 1]];
+                        setCur[j][k][j - 1] = 1;
+                    }
+                }
+                if (dpCur[j][k] > ans) {
+                    ans = dpCur[j][k];
+                    res = setCur[j][k];
                 }
             }
-            else
-                I[i][j] = I[i-1][j];
         }
-    return 0;
+        std::swap(dpCur, dpPrev);
+        std::swap(setCur, setPrev);
+    }
+    std::cout << ans << '\n';
+    for (int i = 0; i < n; ++i) {
+        if (res[i]) {
+            std::cout << i + 1 << ' ';
+        }
+    }
+    std::cout << '\n';
 }
