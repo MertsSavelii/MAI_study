@@ -3,35 +3,24 @@
 using namespace std;
 
 const long long INF = INT64_MAX;
-long long V_size, E_size;// колличество вершин и рёбер соответсвенно
-long long start_V, finish_V; // начальная и конечная вершины соответственно
-vector<unordered_map<unsigned, long long>> adjacency_vec; // вектор смежности
 
-void Graph_input(){
-    cin >> V_size >> E_size >> start_V >> finish_V;
-    adjacency_vec.resize(V_size);
+vector<unordered_map<unsigned, long long>> Graph_input(long long V_size, long long E_size){
+    vector<unordered_map<unsigned, long long>> adjacency_vec(V_size);
     for(long long i = 0; i < E_size; ++i){
         long long v1, v2, length;
         cin >> v1 >> v2 >> length;
         adjacency_vec[v1 - 1].insert({v2 - 1, length});
     }
+    return adjacency_vec;
 }
 
-vector<long long> Dijkstras_algorithm(){
-    vector<unordered_map<unsigned, long long>> graph_vec(V_size);
+vector<long long> Dijkstras_algorithm(long long V_size, long long start_V, vector<unordered_map<unsigned, long long>> graph_vec){
     vector<bool> visited(V_size, false);
     vector<long long> distance(V_size, INF);
     priority_queue<pair<long long, unsigned>, vector<pair<long long, unsigned>>, greater<>> v_to_visit;
 
-    //переделываем из ориентированного в неориентированный
-    for(int vi = 0; vi < V_size; ++vi)
-        for(auto& j: adjacency_vec[vi]){
-            graph_vec[vi].insert(j);
-            graph_vec[j.first].insert({vi, j.second});
-        }
-
-    distance[start_V - 1] = 0;
-    v_to_visit.push({0, start_V - 1});
+    distance[start_V ] = 0;
+    v_to_visit.push({0, start_V });
     while(!v_to_visit.empty()){
         long long v = v_to_visit.top().second;
         v_to_visit.pop();
@@ -47,17 +36,11 @@ vector<long long> Dijkstras_algorithm(){
     return distance;
 }
 
-vector<long long> Ford_Bellman_algorithm(){
-    vector<pair<pair<unsigned, unsigned>, long long>> edges; // откуда, куда, длина ребра
+vector<long long> Ford_Bellman_algorithm(long long V_size, long long start_V, vector<pair<pair<unsigned, unsigned>, long long>> edges){
     vector<long long> distance(V_size, INF);
     bool has_graph_changed = true;
 
-    for(int i = 0; i < adjacency_vec.size(); ++i)
-        for(auto& j: adjacency_vec[i])
-            edges.push_back({{i,j.first}, j.second});
-
-
-    distance[start_V - 1] = 0;
+    distance[start_V] = 0;
     for(int i = 0; has_graph_changed and i < V_size+1; ++i){
         has_graph_changed = false;
         for(auto& edge: edges)
@@ -75,12 +58,37 @@ vector<long long> Ford_Bellman_algorithm(){
 }
 
 int main(){
-    Graph_input();
-    vector<long long> min_distance = Ford_Bellman_algorithm();
-    if(min_distance[finish_V - 1] == INF) {
-        cout << "No solution" << endl;
-    } else {
-        cout<< min_distance[finish_V - 1] << endl;
+    long long V_size, E_size; // колличество вершин и рёбер соответсвенно
+    vector<unordered_map<unsigned, long long>> adjacency_vec; // вектор смежности
+    cin >> V_size >> E_size;
+    adjacency_vec = Graph_input(V_size, E_size);
+
+    // вектор рёбер удобно использовать в Ford_Bellman
+    vector<pair<pair<unsigned, unsigned>, long long>> edges; // pair<pair<откуда, куда>, длина ребра>
+    for(int i = 0; i < adjacency_vec.size(); ++i)
+        for(auto& j: adjacency_vec[i])
+            edges.push_back({{i,j.first}, j.second});
+
+    // добавляе фиктивую вершину для использования в Ford_Bellman
+    for(int i = 0; i < V_size; ++i)
+        edges.push_back({{V_size, i}, 0});
+
+
+    vector<long long> h = Ford_Bellman_algorithm(V_size + 1, V_size, edges);
+
+    for (int i = 0; i < V_size; ++i)
+        for (auto& edge: adjacency_vec[i])
+            edge.second = edge.second + h[i] - h[edge.first];
+
+
+
+    for(int i = 0; i < V_size; ++i){
+        vector<long long> d = Dijkstras_algorithm(V_size, i, adjacency_vec);
+        for (int j = 0; j < V_size; ++j){
+            if (d[j] == INF) cout << "inf ";
+            else cout << d[j] + h[j] - h[i] << " ";
+        }
+        cout << endl;
     }
     return 0;
 }
