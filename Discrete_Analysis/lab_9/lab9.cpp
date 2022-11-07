@@ -2,9 +2,16 @@
 
 using namespace std;
 
+struct edge_t
+{
+    unsigned from, to;
+    long long distane;
+};
+
+
 const long long INF = INT64_MAX;
 
-vector<unordered_map<unsigned, long long>> Graph_input(long long V_size, long long E_size){
+vector<unordered_map<unsigned, long long>> Graph_input(unsigned V_size, unsigned E_size){
     vector<unordered_map<unsigned, long long>> adjacency_vec(V_size);
     for(long long i = 0; i < E_size; ++i){
         long long v1, v2, length;
@@ -14,7 +21,7 @@ vector<unordered_map<unsigned, long long>> Graph_input(long long V_size, long lo
     return adjacency_vec;
 }
 
-vector<long long> Dijkstras_algorithm(long long V_size, long long start_V, vector<unordered_map<unsigned, long long>> graph_vec){
+vector<long long> Dijkstras_algorithm(unsigned V_size, unsigned start_V, vector<unordered_map<unsigned, long long>> graph_vec){
     vector<bool> visited(V_size, false);
     vector<long long> distance(V_size, INF);
     priority_queue<pair<long long, unsigned>, vector<pair<long long, unsigned>>, greater<>> v_to_visit;
@@ -36,7 +43,7 @@ vector<long long> Dijkstras_algorithm(long long V_size, long long start_V, vecto
     return distance;
 }
 
-vector<long long> Ford_Bellman_algorithm(long long V_size, long long start_V, vector<pair<pair<unsigned, unsigned>, long long>> edges){
+vector<long long> Ford_Bellman_algorithm(unsigned V_size, unsigned start_V, vector<edge_t> edges){
     vector<long long> distance(V_size, INF);
     bool has_graph_changed = true;
 
@@ -58,20 +65,20 @@ vector<long long> Ford_Bellman_algorithm(long long V_size, long long start_V, ve
 }
 
 int main(){
-    long long V_size, E_size; // колличество вершин и рёбер соответсвенно
+    unsigned V_size, E_size; // колличество вершин и рёбер соответсвенно
     vector<unordered_map<unsigned, long long>> adjacency_vec; // вектор смежности
     cin >> V_size >> E_size;
     adjacency_vec = Graph_input(V_size, E_size);
 
     // вектор рёбер удобно использовать в Ford_Bellman
-    vector<pair<pair<unsigned, unsigned>, long long>> edges; // pair<pair<откуда, куда>, длина ребра>
-    for(int i = 0; i < adjacency_vec.size(); ++i)
+    vector<edge_t> edges; // pair<pair<откуда, куда>, длина ребра>
+    for(unsigned i = 0; i < adjacency_vec.size(); ++i)
         for(auto& j: adjacency_vec[i])
-            edges.push_back({{i,j.first}, j.second});
+            edges.push_back(edge_t{i, j.first, j.second});
 
     // добавляе фиктивую вершину для использования в Ford_Bellman
-    for(int i = 0; i < V_size; ++i)
-        edges.push_back({{V_size, i}, 0});
+    for(unsigned i = 0; i < V_size; ++i)
+        edges.push_back(edge_t{V_size, i, 0});
 
 
     vector<long long> h = Ford_Bellman_algorithm(V_size + 1, V_size, edges);
