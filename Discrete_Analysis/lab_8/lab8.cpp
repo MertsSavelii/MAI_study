@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 struct SegmentBoundaries
 {
@@ -33,8 +34,10 @@ int main(){
     in_segments.resize(n);
     for(int i = 0; i < n; ++i)
         std::cin >> in_segments[i].left >> in_segments[i].right;
-    std::cin >> m;
+    std::cin >> m;  
+    auto start = std::chrono::steady_clock::now();
     LongestSegmentContainingLeft(0);
+    auto finish = std::chrono::steady_clock::now();
     if(in_segments[ans_indx.back()].right >= m) {
         std::sort(ans_indx.begin(), ans_indx.end());
         std::cout << ans_indx.size() << std::endl;
@@ -43,5 +46,7 @@ int main(){
     } else {
         std::cout << "0" << std::endl;
     }
+    unsigned time = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+    std::cout << "!!! " << time << " !!!\n";
     return 0;
 }
