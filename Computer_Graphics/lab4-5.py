@@ -67,16 +67,11 @@ def draw(z_h, z_l, appr,a, c):
     vertsTwo = []
     for i in range(appr*100 - 1):
         temp = c * np.cosh(u[i])
-        #print(temp)
         if((z_h > temp) and (temp > z_l)):
             verts.append(((a * np.sinh(u[i]) * np.cos(v[i])),(a * np.sinh(u[i]) * np.sin(v[i])),(c * np.cosh(u[i]))))
-        #if((-z_h < -temp) and (-temp < -z_l)):
-            #vertsTwo.append(((a * np.sinh(u[i]) * np.cos(v[i])),(a * np.sinh(u[i]) * np.sin(v[i])),(-c * np.cosh(u[i]))))
     glBegin(GL_POLYGON)
     for v in verts:
         glVertex3fv(v)
-    #for v in vertsTwo:
-        #glVertex3fv(v)
     glEnd()
 
 def reshape(width, height):
@@ -138,7 +133,6 @@ def rotate():
             print(val)
             begin = time.time()
             while time.time() - begin < 1:
-                #zrot += val
                 xrot += val
                 yrot += val
                 glutPostRedisplay()
@@ -160,9 +154,6 @@ def main():
     glutReshapeFunc(reshape)
     glutKeyboardFunc(specialkeys)
     init()
-    #t = threading.Thread(target=rotate)
-    #t.daemon = True
-    #t.start()
     glutMainLoop()
 
 if __name__ == "__main__":
