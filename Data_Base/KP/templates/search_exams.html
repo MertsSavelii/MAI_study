@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Направления</title>
+        <link rel="stylesheet" href="../static/css/style.css">
+    </head>
+    <body>
+        <div class="big_card">
+            <div class="header_main">
+                <p class="article"><a href="/">Вузы Москвы</a></p>
+            </div>
+            <div class="searches">
+                <div class="specs">
+                    <form method="post" enctype="multipart/form-data"><!--<input type="text" name="num_of_spec" id="num_of_spec" class="form-control" placeholder="Номер специальности">-->
+                        <select name="exam" id="exam">
+                            <option value="М, Ф, Р">М, Ф, Р</option>
+                            <option value="М, И, Р">М, И, Р</option>
+                            <option value="М, О, Р">М, О, Р</option>
+                            <option value="Ин, О, Р">Ин, О, Р</option>
+                            <option value="Ин, О, Р">Ин, О, Р</option>
+                            <option value="Ин, Л, Р">Ин, Л, Р</option>
+                            <option value="Б, Х, Р">Б, Х, Р</option>
+                        </select>
+                        <input type="submit" class="btn btn-success" value="Найти">
+                    </form>
+                </div>
+            </div>
+            <div class="cards">
+                {% if bachelors|length > 0%}
+                    {% for el in bachelors %}
+                        <div class="sp_card">
+                            <div class="note">
+                                <p>Номер специальности: {{ el.num_of_spec }}</p>
+                                <p>Название специальности: "{{ el.name }}"</p>
+                                <p>Экзамены: "{{ el.exams }}"</p>
+                                <p>Проходной балл на бюджет: {{ el.budget_score }}</p>
+                                <p>Проходной балл на платную основу: {{ el.paid_score }}</p>
+                                <p>Число бюджетных мест: {{ el.budget_places }}</p>
+                                <p>Число платных мест: {{ el.paid_places }}</p>
+                                <p>Стоимость обучения в год: {{ el.paid_cost }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="nothing">Заполните бд</p>
+                {% endif %}
+            </div>
+            <div class="footer_main">
+                <p class="makers">Курсовой проект по предмету база данных. Реализация сайта ВУЗов Москвы. Выполнили Мерц Савелий, Михеева Кристина, Варламова Анна М8О-307Б-20. 2022</p>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Обновить</title>
+        <link rel="stylesheet" href="../static/css/style.css">
+    </head>
+    <body>
+        <div class="big_card">
+            <div class="header_main">
+                <p class="article"><a href="/">Вузы Москвы</a></p>
+            </div>
+            <div class="note">
+                <p>Вуз: {{ uni_name }}</p>
+            </div>
+            <div class="inputs">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="in"><input type="text" name="num_of_spec" id="num_of_spec" class="form-control" placeholder="Номер специальности" value="{{ bach.num_of_spec }}"><br></div>
+                    <div class="in"><input type="text" name="name" id="name" class="form-control" placeholder="Название" value="{{ bach.name }}"><br></div>
+                    <select id="exams" name="exams">
+                        <option disabled>{{ bach.exams }}</option>
+                        <option value="М, Ф, Р">М, Ф, Р</option>
+                        <option value="М, И, Р">М, И, Р</option>
+                        <option value="М, О, Р">М, О, Р</option>
+                        <option value="Ин, О, Р">Ин, О, Р</option>
+                        <option value="Ин, О, Р">Ин, О, Р</option>
+                        <option value="Ин, Л, Р">Ин, Л, Р</option>
+                        <option value="Б, Х, Р">Б, Х, Р</option>
+                    </select>
+                    <div class="in"><input type="number" name="budget_score" id="budget_score" class="form-control" placeholder="Проходной балл на бюджет" value="{{ bach.budget_score }}"><br></div>
+                    <div class="in"><input type="number" name="paid_score" id="paid_score" class="form-control" placeholder="Проходной балл на платную основу:" value="{{ bach.paid_score }}"><br></div>
+                    <div class="in"><input type="number" name="budget_places" id="budget_places" class="form-control" placeholder="Число бюджетных мест" value="{{ bach.budget_places }}"><br></div>
+                    <div class="in"><input type="number" name="paid_places" id="paid_places" class="form-control" placeholder="Число платных мест" value="{{ bach.paid_places }}"><br></div>
+                    <div class="in"><input type="number" name="paid_cost" id="paid_cost" class="form-control" placeholder="Стоимость обучения" value="{{ bach. paid_cost }}"><br></div>
+                    <div class="in"><input type="submit" class="btn btn-success" value="Отправить"></div>
+                </form>
+            </div>
+            <div class="footer_main">
+                <p class="makers">Курсовой проект по предмету база данных. Реализация сайта ВУЗов Москвы. Выполнили Мерц Савелий, Михеева Кристина, Варламова Анна М8О-307Б-20. 2022</p>
+            </div>
+        </div>
+    </body>
+</html>

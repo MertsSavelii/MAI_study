@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Добавить</title>
+        <link rel="stylesheet" href="../static/css/style.css">
+    </head>
+    <body>
+        <div class="big_card">
+            <div class="header_main">
+                <p class="article"><a href="/">Вузы Москвы</a></p>
+            </div>
+            <div class="inputs">
+                <form method="post" enctype="multipart/form-data">
+                    <select id="univer_name" name="univer_name">
+                        {% for el in univers %}
+                            <option value="{{ el.name }}">{{ el.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="in"><input type="text" name="num_of_special" id="num_of_special" class="form-control" placeholder="Номер специальности"><br></div>
+                    <div class="in"><input type="text" name="name" id="name" class="form-control" placeholder="Название"><br></div>
+                    <div class="in"><input type="text" name="exam" id="exam" class="form-control" placeholder="Экзамены"><br></div>
+                    <div class="in"><input type="number" name="budget_score" id="budget_score" class="form-control" placeholder="Проходной балл на бюджет"><br></div>
+                    <div class="in"><input type="number" name="paid_score" id="paid_score" class="form-control" placeholder="Проходной балл на платную основу:"><br></div>
+                    <div class="in"><input type="number" name="budget_place" id="budget_place" class="form-control" placeholder="Число бюджетных мест"><br></div>
+                    <div class="in"><input type="number" name="paid" id="paid" class="form-control" placeholder="Число платных мест"><br></div>
+                    <div class="in"><input type="number" name="cost" id="cost" class="form-control" placeholder="Стоимость обучения"><br></div>
+                    <div class="in"><input type="submit" class="btn btn-success" value="Отправить"></div>
+                </form>
+            </div>
+            <div class="footer_main">
+                <p class="makers">Курсовой проект по предмету база данных. Реализация сайта ВУЗов Москвы. Выполнили Мерц Савелий, Михеева Кристина, Варламова Анна М8О-307Б-20. 2022 </p>
+            </div>
+        </div>
+    </body>
+</html>
