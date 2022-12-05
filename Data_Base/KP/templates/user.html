@@ -11,8 +11,21 @@
                 <p class="article"><a href="/">Вузы Москвы</a></p>
             </div>
             <div class="buttons_contain">
-                <p class="user_button"><a href="/search_spec">Поиск по номеру направления</a></p>
-                <p class="user_button"><a href="/search_exams">Поиск по ЕГЭ</a></p>
+                <p class="user_button"><a href="/spec_up">Поиск по номеру направления</a></p>
+                <p class="user_button"><a href="/spec_down">Поиск по ЕГЭ</a></p>
+            </div>
+            <div class="searches">
+                <div class="specs">
+                    <form method="post" enctype="multipart/form-data"><!--<input type="text" name="num_of_spec" id="num_of_spec" class="form-control" placeholder="Номер специальности">-->
+                        <select name="desk" id="desk">
+                            <option value=1>По возрастанию баллов</option>
+                            <option value=2>По убыванию баллов</option>
+                            <option value=3>По возрастанию стоимости</option>
+                            <option value=4>По убыванию стоимости</option>
+                        </select>
+                        <input type="submit" class="btn btn-success" value="Найти">
+                    </form>
+                </div>
             </div>
             <div class="cards">
                 {% if bachelors|length > 0%}

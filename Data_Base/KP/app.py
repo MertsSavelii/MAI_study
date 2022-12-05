@@ -138,42 +138,60 @@ def add_uni():
 def add_spec():
     if request.method == "POST":
         curr = Bachelor()
-        name_univers = request.form['univer_name']
-        univer = db.session.query(University).filter(University.name == name_univers).first()
-        curr.id_university = univer.id
+        curr.name_univers = request.form['univer_name']
+        univer = db.session.query(University).filter(University.name == curr.name_univers).first()
+        curr.id_univer = univer.id
         curr.num_of_spec= request.form['num_of_special']
         curr.name = request.form['name']
-        curr.exams = request.form['exam']
+        curr.exam = request.form['exam']
         curr.budget_score = request.form['budget_score']
         curr.paid_score = request.form['paid_score']
         curr.budget_place = request.form['budget_place']
-        curr.paid_places = request.form['paid']
-        curr.paid_cost = request.form['cost']
+        curr.paid = request.form['paid']
+        curr.cost = request.form['cost']
         try:
             db.session.add(curr)
             db.session.commit()
-            return redirect('/admin')
+            return redirect('/add_spec')
         except:
             return "Произошла ошибка"
     else:
-        university = University.query.order_by(University.id).all()
-        return render_template("add_spec.html", univers=university)
+        univ_name = db.session.query(University.name).order_by(University.id).all()
+        return render_template("add_spec.html", univers=univ_name)
 
 
 @app.route('/user', methods=['POST', 'GET'])
 def user():
     bachelors = Bachelor.query.order_by(Bachelor.id).all()
-    if request.method == "GET":
-        return render_template("user.html", bachelors=bachelors)
     if request.method == "POST":
-        #num_of_spec = request.form['num_of_spec']
-        exams = request.form['exam']
-        bachelors = Bachelor.query.filter(Bachelor.exams == exams).all()
-        #if num_of_spec.empty():
-         #   bachelors = Bachelor.query.filter(Bachelor.exams == exams).all()
-        #else:
-            #bachelors = Bachelor.query.filter(Bachelor.num_of_spec == num_of_spec).all()
-        return render_template("user.html", bachelors=bachelors)
+        filter = request.form['desk']
+        if filter == '1':
+            bachelors = Bachelor.query.filter(Bachelor.budget_score != 0).order_by(Bachelor.budget_score).all()
+        if filter == '2':
+            bachelors = Bachelor.query.order_by(Bachelor.budget_score.desc()).all()
+        if filter == '3':
+            bachelors = Bachelor.query.order_by(Bachelor.paid_cost).all()
+        if filter == '4':
+            bachelors = Bachelor.query.order_by(Bachelor.paid_cost.desc()).all()
+    return render_template("user.html", bachelors=bachelors)
+
+
+@app.route('/search_exams', methods=['POST', 'GET'])
+def search_exams():
+    bachelors = Bachelor.query.order_by(Bachelor.id).all()
+    if request.method == "POST":
+        exam = request.form['exam']
+        bachelors = Bachelor.query.filter(Bachelor.exams == exam).order_by(Bachelor.id).all()
+    return render_template("search_exams.html", bachelors=bachelors)
+
+
+@app.route('/search_spec', methods=['POST', 'GET'])
+def search_spec():
+    bachelors = Bachelor.query.order_by(Bachelor.id).all()
+    if request.method == "POST":
+        num_spec = request.form['num_of_spec']
+        bachelors = Bachelor.query.filter(Bachelor.num_of_spec == num_spec).order_by(Bachelor.id).all()
+    return render_template("search_spec.html", bachelors=bachelors)
 
 
 if __name__ == "__main__":
