@@ -49,7 +49,7 @@ vector<cd> ifft(vector<cd>& y)
 
 vector<cd> multiply(vector<cd> a, vector<cd> b){
 	size_t n = 1;
-	while(n < max(a.size(), b.size()))
+	while(n < a.size() + b.size() - 1)
 		n <<= 1;
 	a.resize(n), b.resize(n);
 	vector<cd> ya = fft(a);
@@ -59,8 +59,22 @@ vector<cd> multiply(vector<cd> a, vector<cd> b){
 		res[i] = ya[i] * yb[i];
 	}
 	res = ifft(res);
-	// нужно убрать незначащие нули
-	// потом сделать пернос разрядов и всё будет тип топ
+	// округляем
+	for(int i = 0; i < n; ++i)
+		res[i] = int(res[i].real() + 0.5);
+	// делаем пернос разрядов
+	int carry = 0;
+	for (int i = 0; i < n; ++i) {
+		res[i] += carry;
+		carry = res[i].real() / 10;
+		res[i] = int(res[i].real()) % 10;
+	}
+	// убраем незначащие нули
+	for(int i = n - 1; i > 0; i--){
+		if(res[i].real() == 0)
+			res.erase(res.begin() + i);
+		else break;
+	}
 	return res;
 }
 
@@ -76,7 +90,7 @@ vector<cd> string_to_polinom(string& str){
 string polinom_to_string(vector<cd> poli){
 	string res;
 	for(int i = poli.size() - 1; i >= 0; i--){
-		res.push_back(poli[i].real() + '0');
+		res.push_back(int(poli[i].real()) + '0');
 	}
 	return res;
 }
@@ -89,9 +103,6 @@ int main()
 	cin >> in_big_num;
 	vector<cd> b = string_to_polinom(in_big_num);
 	vector<cd> res = multiply(a, b);
-	
-	for(int i = 0; i < a.size() + b.size() - 1; i++){
-		cout << res[i] << endl;
-	}
+	cout << polinom_to_string(res) << endl;
 	return 0;
 }
