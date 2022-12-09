@@ -47,8 +47,19 @@ vector<cd> multiply(vector<cd> a, vector<cd> b){
 	while(n < a.size() + b.size() - 1)
 		n <<= 1;
 	a.resize(n), b.resize(n);
-	vector<cd> ya = fft(a),
-			   yb = fft(b);
+
+	// std::chrono::steady_clock::time_point startTime =
+    // std::chrono::steady_clock::now();
+	
+	vector<cd> ya = fft(a);
+
+	// std::chrono::steady_clock::time_point finishTime =
+    // std::chrono::steady_clock::now();
+
+	// unsigned time = std::chrono::duration_cast<std::chrono::microseconds>(finishTime - startTime).count();
+    // std::cout << "!!! " << time << " !!!\n";
+
+	vector<cd> yb = fft(b);
 	vector<cd> res(n);
 	for(int i = 0; i < n; i++)
 		res[i] = ya[i] * yb[i];
