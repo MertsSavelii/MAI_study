@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-# define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846
+#define SIZE_BLOCK 4096
 typedef complex<double> cd;
 
 vector<cd> fft(vector<cd>& a)
@@ -42,70 +43,41 @@ vector<cd> ifft(vector<cd>& y)
 	return a;
 }
 
-vector<cd> multiply(vector<cd> a, vector<cd> b){
-	size_t n = 1;
-	while(n < a.size() + b.size() - 1)
-		n <<= 1;
-	a.resize(n), b.resize(n);
-
-	// std::chrono::steady_clock::time_point startTime =
-    // std::chrono::steady_clock::now();
-	
-	vector<cd> ya = fft(a);
-
-	// std::chrono::steady_clock::time_point finishTime =
-    // std::chrono::steady_clock::now();
-
-	// unsigned time = std::chrono::duration_cast<std::chrono::microseconds>(finishTime - startTime).count();
-    // std::cout << "!!! " << time << " !!!\n";
-
-	vector<cd> yb = fft(b);
-	vector<cd> res(n);
-	for(int i = 0; i < n; i++)
-		res[i] = ya[i] * yb[i];
-	res = ifft(res);
-	// округляем
-	for(int i = 0; i < n; ++i)
-		res[i] = int(res[i].real() + 0.5);
-	// делаем пернос разрядов
-	int carry = 0;
-	for (int i = 0; i < n; ++i) {
-		res[i] += carry;
-		carry = res[i].real() / 10;
-		res[i] = int(res[i].real()) % 10;
+vector<double> put_hann(vector<double>& value)
+{
+	for (int i =0; i < SIZE_BLOCK; ++i) {
+		double multiplier = 0.5 * (1 - cos(2*M_PI * i / (SIZE_BLOCK-1)));
+		value[i] = multiplier * value[i];
 	}
-	// убраем незначащие нули
-	for(int i = n - 1; i > 0; i--){
-		if(res[i].real() == 0)
-			res.erase(res.begin() + i);
-		else break;
-	}
+	return value;
+}
+
+vector<cd> ToComplex(vector<double>& value){
+	vector<cd> res(SIZE_BLOCK);
+	for(int i = 0; i < value.size(); i++)
+		res[i] = value[i];
 	return res;
 }
 
-vector<cd> string_to_polinom(string& str){
-	vector<cd> res;
-	for(int i = str.length() - 1; i >= 0; i--)
-		if(isdigit(str[i]))
-			res.push_back(str[i] - '0');
-	return res;
-}
-
-string polinom_to_string(vector<cd> poli){
-	string res;
-	for(int i = poli.size() - 1; i >= 0; i--)
-		res.push_back(int(poli[i].real()) + '0');
-	return res;
+long long FindMax(vector<cd>& value){
+	long long max = LLONG_MIN;
+	for(int i = 0; i < value.size(); i++)
+		max = max < value[i].real() ? value[i].real() : max;
+	return max;
 }
 
 int main()
 {
-	string in_big_num;
-	cin >> in_big_num;
-	vector<cd> a = string_to_polinom(in_big_num);
-	cin >> in_big_num;
-	vector<cd> b = string_to_polinom(in_big_num);
-	vector<cd> res = multiply(a, b);
-	cout << polinom_to_string(res) << endl;
+	string file_name;
+	int interval;
+	cin >> file_name >> internal;
+	// потом надо получить 4096 отсчёта из файла мп3
+	vector<double> in_amp(SIZE_BLOCK);
+	// in_app = from.mp3.file_name как-то так
+	in_amp = put_hann(in_amp);
+	vector<cd> in_complex = ToComplex(in_amp);
+	vector<cd> res_fft = fft(in_complex);
+	long long max = FindMax(res_fft);
+	cout << max;
 	return 0;
 }
