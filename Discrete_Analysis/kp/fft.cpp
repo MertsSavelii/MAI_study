@@ -23,7 +23,7 @@ vector<cd> fft(vector<cd>& a)
 	double alpha;
 	cd w;
 	for (int k = 0; k < n / 2; k++) {
-		alpha = -2 * M_PI * k / n;
+		alpha = -2*M_PI * k / n;
 		w = cd(cos(alpha), sin(alpha));
 		y[k] = y0[k] + w * y1[k];
 		y[k + n / 2] = y0[k] - w * y1[k];
@@ -43,7 +43,7 @@ vector<cd> ifft(vector<cd>& y)
 	return a;
 }
 
-vector<double> put_hann(vector<double>& value)
+vector<double> put_hann(vector<double>& value) // можно преподсчитать
 {
 	for (int i =0; i < SIZE_BLOCK; ++i) {
 		double multiplier = 0.5 * (1 - cos(2*M_PI * i / (SIZE_BLOCK-1)));
@@ -69,8 +69,8 @@ long long FindMax(vector<cd>& value){
 int main()
 {
 	string file_name;
-	int interval;
-	cin >> file_name >> internal;
+	int interval; // интервал между отсчётам
+	cin >> file_name >> interval;
 	// потом надо получить 4096 отсчёта из файла мп3
 	vector<double> in_amp(SIZE_BLOCK);
 	// in_app = from.mp3.file_name как-то так
