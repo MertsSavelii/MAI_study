@@ -1,83 +1,113 @@
+#include <mpg123.h>
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define M_PI 3.14159265358979323846
-#define SIZE_BLOCK 4096
-typedef complex<double> cd;
+typedef uint64_t TSize;
+typedef int32_t TInt;
 
-vector<cd> fft(vector<cd>& a)
+typedef complex<float> TComplex;
+
+const TSize BLOCK_SIZE = 4096;
+
+void ReadPCMFormMP3File(vector <float>& arr, const char* file_name) {
+	mpg123_init();
+
+   	int err;
+    mpg123_handle *mh = mpg123_new(NULL, &err);
+    unsigned char *buffer;
+    size_t buffer_size;
+    size_t done;
+
+    int channels, encoding;
+    long rate;
+    buffer_size = mpg123_outblock(mh);
+    buffer = (unsigned char*)malloc(buffer_size * sizeof(unsigned char));
+
+    mpg123_open(mh, file_name);
+    mpg123_getformat(mh, &rate, &channels, &encoding);
+    
+    for (int totalBtyes = 0; mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK; totalBtyes += done) {
+        short* tst = reinterpret_cast<short*>(buffer);   
+		for (int i = 0; i < buffer_size/2 ; i++){
+			arr.push_back((float)tst[i]);
+		}
+    }
+    free(buffer);
+    mpg123_close(mh);
+    mpg123_delete(mh);
+    mpg123_exit();
+}
+
+void HannWindow(vector<TComplex>& value)
 {
-	int n = a.size();
-	if (n == 1) return vector<cd>(1, a[0]);
+	for (int i =0; i < BLOCK_SIZE; ++i) {
+		TComplex multiplier = 0.5 * (1 - cos(2*M_PI * i / (BLOCK_SIZE-1)));
+		value[i] *= multiplier;
+	}
+}
 
-	vector<cd> A0(n / 2), A1(n / 2);
-	for (int i = 0; i < n / 2; i++) {
-		A0[i] = a[i * 2];
-		A1[i] = a[i * 2 + 1];
+void FFT(vector <TComplex> *arr) {
+	TSize size = arr->size();
+	if (size <= 1) {
+		return;
+	}
+	vector <TComplex> arr1(size / 2);
+	vector <TComplex> arr2(size / 2);
+
+	for (TSize i = 0, j = 0; i < size; i += 2, j++) {
+		arr1[j] = (*arr)[i];
+		arr2[j] = (*arr)[i + 1];
 	}
 
-	vector<cd> y0 = fft(A0),
-			   y1 = fft(A1);
+	FFT(&arr1);
+	FFT(&arr2);
 
-	vector<cd> y(n);
-	double alpha;
-	cd w;
-	for (int k = 0; k < n / 2; k++) {
-		alpha = -2*M_PI * k / n;
-		w = cd(cos(alpha), sin(alpha));
-		y[k] = y0[k] + w * y1[k];
-		y[k + n / 2] = y0[k] - w * y1[k];
+	const float coeff = 2 * M_PI / size;
+
+	TComplex w(1.);
+	TComplex wn(cos(coeff), sin(coeff));
+
+	for (TSize i = 0; i < size / 2; i++) {
+		(*arr)[i] = arr1[i] + w * arr2[i];
+		(*arr)[i + size / 2] = arr1[i] - w * arr2[i];
+		w *= wn;
 	}
-	return y;
 }
 
-vector<cd> ifft(vector<cd>& y)
-{
-	y = fft(y);
-	for(int i = 0; i < y.size(); ++i)
-		y[i] /= y.size();
-	vector<cd> a;
-	a.push_back(y[0].real());
-	for(int i = y.size() - 1; i >= 1; --i)
-		a.push_back(y[i].real());
-	return a;
-}
+void TransformPCMToMaxAplitude(vector <float>& audio, vector <TSize>& out) {
+	TSize audio_size = audio.size();
+	TSize block_num = audio_size / BLOCK_SIZE;
 
-vector<double> put_hann(vector<double>& value) // можно преподсчитать
-{
-	for (int i =0; i < SIZE_BLOCK; ++i) {
-		double multiplier = 0.5 * (1 - cos(2*M_PI * i / (SIZE_BLOCK-1)));
-		value[i] = multiplier * value[i];
+	out.resize(0);
+
+	for (TSize i = 0; i < block_num; i++) {
+		vector <TComplex> complex_array(BLOCK_SIZE);
+		for (TSize j = 0; j < BLOCK_SIZE; j++) {
+			TComplex tmp(audio[i * BLOCK_SIZE + j], 0);
+			complex_array[j] = tmp;
+		}
+
+		HannWindow(complex_array);
+
+		FFT(&complex_array);
+
+		TComplex max_real = *max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return a.real() < b.real(); });
+		out.push_back(max_real.real());
 	}
-	return value;
 }
 
-vector<cd> ToComplex(vector<double>& value){
-	vector<cd> res(SIZE_BLOCK);
-	for(int i = 0; i < value.size(); i++)
-		res[i] = value[i];
-	return res;
+void FindMaxAmplitude(char *file_name, vector <TSize>& out) {
+	vector <float> audio;
+	ReadPCMFormMP3File(audio, file_name);
+	TransformPCMToMaxAplitude(audio, out);
 }
 
-long long FindMax(vector<cd>& value){
-	long long max = LLONG_MIN;
-	for(int i = 0; i < value.size(); i++)
-		max = max < value[i].real() ? value[i].real() : max;
-	return max;
-}
-
-int main()
+int main(int argc, char *argv[])
 {
-	string file_name;
-	int interval; // интервал между отсчётам
-	cin >> file_name >> interval;
-	// потом надо получить 4096 отсчёта из файла мп3
-	vector<double> in_amp(SIZE_BLOCK);
-	// in_app = from.mp3.file_name как-то так
-	in_amp = put_hann(in_amp);
-	vector<cd> in_complex = ToComplex(in_amp);
-	vector<cd> res_fft = fft(in_complex);
-	long long max = FindMax(res_fft);
-	cout << max;
+	vector <TSize> res;
+	FindMaxAmplitude(argv[1], res);
+	for(auto it: res)
+		cout << it << endl;
 	return 0;
 }
