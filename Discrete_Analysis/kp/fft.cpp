@@ -24,8 +24,8 @@ void ReadPCMFormMP3File(vector <float>& arr, const char* file_name) {
     buffer_size = mpg123_outblock(mh);
     buffer = (unsigned char*)malloc(buffer_size * sizeof(unsigned char));
 
-    mpg123_open(mh, file_name);
-    mpg123_getformat(mh, &rate, &channels, &encoding);
+    assert(mpg123_open(mh, file_name) == MPG123_OK);
+    assert(mpg123_getformat(mh, &rate, &channels, &encoding) == MPG123_OK);
     
     for (int totalBtyes = 0; mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK; totalBtyes += done) {
         short* tst = reinterpret_cast<short*>(buffer);   
@@ -105,6 +105,10 @@ void FindMaxAmplitude(char *file_name, vector <TSize>& out) {
 
 int main(int argc, char *argv[])
 {
+	if (argc < 2) {
+		cout << "to few arg\n";
+		exit(1);
+	}
 	vector <TSize> res;
 	FindMaxAmplitude(argv[1], res);
 	for(auto it: res)
