@@ -92,25 +92,33 @@ void TransformPCMToMaxAplitude(vector <float>& audio, vector <TSize>& out) {
 
 		FFT(&complex_array);
 
-		TComplex max_real = *max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return abs(a.real()) < abs(b.real()); });
-		out.push_back(max_real.real());
+		TComplex max_real = abs(*max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return abs(a.real()) < abs(b.real()); }));
+		out.push_back(log(max_real.real()));
 	}
 }
 
-void FindMaxAmplitude(char *file_name, vector <TSize>& out) {
+void FindMaxAmplitude(char *file_name, char * otstup, vector <TSize>& out) {
 	vector <float> audio;
 	ReadPCMFormMP3File(audio, file_name);
-	TransformPCMToMaxAplitude(audio, out);
+	vector <float> pcm;
+	char* p;
+	int os = strtol( otstup, &p, 10);
+	cout << os << endl;
+	for(int i = 0; i < audio.size(); i+= 1 + os)
+		pcm.push_back(audio[i]);
+	while(pcm.size() % BLOCK_SIZE != 0)
+		pcm.push_back(0);
+	TransformPCMToMaxAplitude(pcm, out);
 }
 
 int main(int argc, char *argv[])
 {
-	if (argc < 2) {
+	if (argc < 3) {
 		cout << "to few arg\n";
 		exit(1);
 	}
 	vector <TSize> res;
-	FindMaxAmplitude(argv[1], res);
+	FindMaxAmplitude(argv[1], argv[2], res);
 	for(auto it: res)
 		cout << it << endl;
 	return 0;
