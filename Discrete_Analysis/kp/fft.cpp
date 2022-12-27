@@ -46,7 +46,7 @@ void HannWindow(vector<TComplex>& value)
 		value[i] *= multiplier;
 	}
 }
-df
+
 void FFT(vector <TComplex> *arr) {
 	TSize size = arr->size();
 	if (size <= 1) {
