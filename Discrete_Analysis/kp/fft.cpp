@@ -46,7 +46,7 @@ void HannWindow(vector<TComplex>& value)
 		value[i] *= multiplier;
 	}
 }
-
+df
 void FFT(vector <TComplex> *arr) {
 	TSize size = arr->size();
 	if (size <= 1) {
@@ -92,7 +92,7 @@ void TransformPCMToMaxAplitude(vector <float>& audio, vector <TSize>& out) {
 
 		FFT(&complex_array);
 
-		TComplex max_real = *max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return a.real() < b.real(); });
+		TComplex max_real = *max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return abs(a.real()) < abs(b.real()); });
 		out.push_back(max_real.real());
 	}
 }
