@@ -89,8 +89,14 @@ void TransformPCMToMaxAplitude(vector <float>& audio, vector <TSize>& out) {
 		}
 
 		HannWindow(complex_array);
-
+		std::chrono::steady_clock::time_point start = 
+        std::chrono::steady_clock::now();
 		FFT(&complex_array);
+		std::chrono::steady_clock::time_point finish = 
+        std::chrono::steady_clock::now();
+     	unsigned time = 
+        std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+    	std::cout << "!!! " << time << " !!!\n";
 
 		TComplex max_real = abs(*max_element(complex_array.begin(), complex_array.end(), [](TComplex a, TComplex b){ return abs(a.real()) < abs(b.real()); }));
 		out.push_back(log(max_real.real()));
