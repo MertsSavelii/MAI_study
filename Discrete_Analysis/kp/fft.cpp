@@ -103,7 +103,6 @@ void FindMaxAmplitude(char *file_name, char * otstup, vector <TSize>& out) {
 	vector <float> pcm;
 	char* p;
 	int os = strtol( otstup, &p, 10);
-	cout << os << endl;
 	for(int i = 0; i < audio.size(); i+= 1 + os)
 		pcm.push_back(audio[i]);
 	while(pcm.size() % BLOCK_SIZE != 0)
