@@ -102,6 +102,6 @@ int main(){
             cout << xi << ' ';
         cout << endl;
     } else 
-        cout << "не правильное решил" << endl();
+        cout << "не правильное решил" << endl;
     return 0;
 }
