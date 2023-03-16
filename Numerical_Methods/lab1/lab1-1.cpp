@@ -3,28 +3,6 @@ using namespace std;
 
 const int eps = 10;
 
-void Matrix_Sorting(
-        vector <vector <double>> &A,
-        vector <vector <double>> &L, 
-        vector <vector <double>> &U,
-        vector <double> &b, int i_start, int j){
-        for(int i = i_start; i < A.size(); i++)
-            if(abs(A[j][j]) < abs(A[i][j])){
-                swap(A[j], A[i]);
-                swap(L[j], L[i]);
-                swap(U[j], U[i]);
-                swap(b[j], b[i]);
-            }
-}
-
-void show(vector <vector <double>> A) {
-	for(int i = 0; i < A.size(); i++) {
-		for(int j = 0; j < A.size(); j++)
-			cout <<" "<< A[i][j] << " ";
-		cout << endl;
-	}
-}
-
 void LU(vector <vector <double>> A,
         vector <vector <double>> &L, 
 		vector <vector <double>> &U){
@@ -48,7 +26,13 @@ void LU_With_Selection_Of_Main_Element(
         vector <double> &b){
     U=A;
     for(int k = 0; k < A.size(); k++){
-        Matrix_Sorting(A, L, U, b, k, k);
+        for(int i = k; i < A.size(); i++)
+            if(abs(A[k][k]) < abs(A[i][k])){
+                swap(A[k], A[i]);
+                swap(L[k], L[i]);
+                swap(U[k], U[i]);
+                swap(b[k], b[i]);
+            }
         for(int i = k+1; i < A.size(); i++)
             for(int j = 0; j < A.size(); j++){
                 if(j == k)
@@ -83,13 +67,19 @@ void Solve (vector <vector <double>> &U,
     }
 }
 
-void proisv(vector <vector <double>> A, vector <vector <double>> B, 
-			vector <vector <double>> &R)
-{
-	for(int i = 0; i < A.size(); i++)
-		for(int j = 0; j < A.size(); j++)
-			for(int k = 0; k < A.size(); k++)
-				R[i][j] += A[i][k] * B[k][j];
+bool Check_The_Result (vector <vector <double>> &A,
+                       vector <double> &x,
+                       vector <double> &b){ 
+    double my_b;
+    for(int i = 0; i < x.size(); i++){
+        my_b = 0;
+        for(int j = 0; j < x.size(); j++){
+            my_b += A[i][j]*x[j];
+        }
+        if(my_b != b[i])
+            return false;
+    }
+    return true;
 }
 
 int main(){
@@ -106,10 +96,12 @@ int main(){
         cin >> b[i];
     }
     LU_With_Selection_Of_Main_Element(A, L, U, b);
-    proisv(L,U,R);
     Solve(U, L, b, x);
-    for(double& xi: x)
-        cout << xi << ' ';
-    cout << endl;
+    if(Check_The_Result(A, x, b)){
+        for(double& xi: x)
+            cout << xi << ' ';
+        cout << endl;
+    } else 
+        cout << "не правильное решил" << endl();
     return 0;
 }
