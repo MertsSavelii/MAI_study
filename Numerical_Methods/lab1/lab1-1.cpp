@@ -97,11 +97,10 @@ int main(){
     }
     LU_With_Selection_Of_Main_Element(A, L, U, b);
     Solve(U, L, b, x);
-    if(Check_The_Result(A, x, b)){
+    if(Check_The_Result(A, x, b))
         for(double& xi: x)
-            cout << xi << ' ';
-        cout << endl;
-    } else 
+            cout << xi << endl;
+    else 
         cout << "не правильное решил" << endl;
     return 0;
 }
