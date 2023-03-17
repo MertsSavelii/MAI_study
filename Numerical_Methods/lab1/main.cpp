@@ -17,22 +17,27 @@ bool Check_The_Result (vector <vector <double>> &A,
     return true;
 }
 
-int main(){
-    int n;
-    cin >> n;
-    vector <vector<double>> A(n, vector<double> (n));
-    vector <double> b(n, 0), x(n, 0);
+void Read_SLAU (vector <vector<double>> &A,
+                vector <double> &b,
+                int n){
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++)
             cin >> A[i][j];
         cin >> b[i];
     }
-    
+}
+
+int main(){
+    int n;
+    cin >> n;
+    vector <vector<double>> A(n, vector<double> (n));
+    vector <double> b(n, 0), x(n, 0);
+    Read_SLAU(A, b, n);
     Solve_With_LU(A, b, x, n);
     if(Check_The_Result(A, x, b))
         for(double& xi: x)
             cout << xi << endl;
     else 
-        cout << "не правильное решил" << endl;
+        cout << "не правильно решил" << endl;
     return 0;
 }

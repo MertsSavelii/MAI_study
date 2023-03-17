@@ -7,24 +7,25 @@ void LU_With_Selection_Of_Main_Element(
         vector <vector <double>> &A,
         vector <vector <double>> &L, 
         vector <vector <double>> &U,
-        vector <double> &b){
+        vector <double> &b,
+        int n){
     U=A;
-    for(int k = 0; k < A.size(); k++){
-        for(int i = k; i < A.size(); i++)
+    for(int k = 0; k < n; k++){
+        for(int i = k; i < n; i++)
             if(abs(A[k][k]) < abs(A[i][k])){
                 swap(A[k], A[i]);
                 swap(L[k], L[i]);
                 swap(U[k], U[i]);
                 swap(b[k], b[i]);
             }
-        for(int i = k+1; i < A.size(); i++)
-            for(int j = 0; j < A.size(); j++){
+        for(int i = k+1; i < n; i++)
+            for(int j = 0; j < n; j++){
                 if(j == k)
                     L[i][k] = U[i][k]/U[k][k];
                 U[i][j] -= U[k][j]*L[i][k];
             }
     }
-    for(int i = 0; i < A.size(); i++)
+    for(int i = 0; i < n; i++)
         L[i][i] = 1;
 }
 
@@ -34,7 +35,7 @@ void Solve_With_LU (vector <vector <double>> &A,
                     int n){
     vector <vector<double>> L(n, vector<double> (n)),
                             U(n, vector<double> (n));
-    LU_With_Selection_Of_Main_Element(A, L, U, b);
+    LU_With_Selection_Of_Main_Element(A, L, U, b, n);
     vector <double> y(n);
     double sum;
     for(int i = 0; i < n; i++){
