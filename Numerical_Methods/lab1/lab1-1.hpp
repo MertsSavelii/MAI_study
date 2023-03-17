@@ -28,26 +28,29 @@ void LU_With_Selection_Of_Main_Element(
         L[i][i] = 1;
 }
 
-void Solve_With_LU (vector <vector <double>> &U,
-            vector <vector <double>> &L, 
-			vector <double> &b,
-            vector <double> &x){
-    vector <double> y(x.size());
+void Solve_With_LU (vector <vector <double>> &A,
+			        vector <double> &b,
+                    vector <double> &x,
+                    int n){
+    vector <vector<double>> L(n, vector<double> (n)),
+                            U(n, vector<double> (n));
+    LU_With_Selection_Of_Main_Element(A, L, U, b);
+    vector <double> y(n);
     double sum;
-    for(int n = 0; n < x.size(); n++){
+    for(int i = 0; i < n; i++){
         sum = 0;
-        for(int k = 0; k < n; k++){
-            sum += L[n][k]*y[k];
+        for(int k = 0; k < i; k++){
+            sum += L[i][k]*y[k];
         }
-        y[n] = b[n] - sum;
+        y[i] = b[i] - sum;
     }
-    for(int n = x.size()-1; n >= 0 ; n--){
+    for(int i = n-1; i >= 0 ; i--){
         sum = 0;
-        for(int k = n; k < x.size(); k++){
-            sum += U[n][k]*x[k];
+        for(int k = i; k < n; k++){
+            sum += U[i][k]*x[k];
         }
-        x[n] = (y[n] - sum)/U[n][n];
-        x[n] = round(x[n]*pow(10, eps))/pow(10, eps);
+        x[i] = (y[i] - sum)/U[i][i];
+        x[i] = round(x[i]*pow(10, eps))/pow(10, eps);
     }
 }
 

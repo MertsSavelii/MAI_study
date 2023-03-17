@@ -20,6 +20,19 @@ void Read_Tridiagonal_Matrix (vector <double> &a,
     Q[n-1] = (d[n-1] - a[n-1]*Q[n-2]) / (b[n-1] + a[n-1]*P[n-2]);
 }
 
+void Direct_Passage (vector <double> &a, 
+                     vector <double> &b, 
+                     vector <double> &c,
+                     vector <double> &d, 
+                     vector <double> &P, 
+                     vector <double> &Q,
+                     int n){
+    for(int i = 1; i < n-1; i++){
+        P[i] = -c[i] / (b[i] + a[i]*P[i-1]);
+        Q[i] = (d[i] - a[i]*Q[i-1]) / (b[i] + a[i]*P[i-1]);
+    }
+}
+
 int main(){
     int n; cin >> n;
     vector <double> a(n, 0), b(n, 0), c(n, 0),

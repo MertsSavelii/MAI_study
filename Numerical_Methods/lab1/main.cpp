@@ -20,18 +20,15 @@ bool Check_The_Result (vector <vector <double>> &A,
 int main(){
     int n;
     cin >> n;
-    vector <vector<double>> A(n, vector<double> (n)),
-                            L(n, vector<double> (n)),
-                            U(n, vector<double> (n)),
-                            R(n, vector<double> (n));
+    vector <vector<double>> A(n, vector<double> (n));
     vector <double> b(n, 0), x(n, 0);
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++)
             cin >> A[i][j];
         cin >> b[i];
     }
-    LU_With_Selection_Of_Main_Element(A, L, U, b);
-    Solve_With_LU(U, L, b, x);
+    
+    Solve_With_LU(A, b, x, n);
     if(Check_The_Result(A, x, b))
         for(double& xi: x)
             cout << xi << endl;
