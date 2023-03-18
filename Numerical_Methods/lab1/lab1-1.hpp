@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int eps = 10; // точность округления 
-
 void LU_With_Selection_Of_Main_Element(
         vector <vector <double>> &A,
         vector <vector <double>> &L, 
@@ -51,7 +49,7 @@ void Solve_With_LU (vector <vector <double>> &A,
             sum += U[i][k]*x[k];
         }
         x[i] = (y[i] - sum)/U[i][i];
-        x[i] = round(x[i]*pow(10, eps))/pow(10, eps);
+        x[i] = round(x[i]*pow(10, 10))/pow(10, 10);
     }
 }
 
