@@ -53,9 +53,9 @@ void Reverse_Passage (vector <double> &x,
 }
 
 void Solve_With_Run_Through(vector <vector <double>> &A,
-			       vector <double> &B,
-                   vector <double> &x,
-                  int n){
+			                vector <double> &B,
+                            vector <double> &x,
+                            int n){
     vector <double> a(n, 0), b(n, 0), c(n, 0),
                     d(n, 0), P(n, 0), Q(n, 0);
     Read_Tridiagonal_Matrix_From_Normal_Matrix(A, B, a, b, c, d, n);

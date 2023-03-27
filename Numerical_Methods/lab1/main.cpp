@@ -33,12 +33,20 @@ void Read_SLAU (vector <vector<double>> &A,
     }
 }
 
+void Read_Matrix (vector <vector<double>> &A,
+                int n){
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            cin >> A[i][j];
+}
+
 int main(){
     int n, eps = 10;
     cin >> n;
     vector <vector<double>> A(n, vector<double> (n));
     vector <double> b(n, 0), x(n, 0);
-    Read_SLAU(A, b, n);
+    // Read_SLAU(A, b, n);
+    // Read_Matrix(A, n);
     // Solve_With_LU(A, b, x, n);
     // Check_The_Result(A, x, b);
     // cout << endl;
@@ -46,6 +54,6 @@ int main(){
     // Check_The_Result(A, x, b);
     // Solve_By_Iterative_Method(A, b, x, "Simple_Iterations", eps, n);
     // Solve_By_Iterative_Method(A, b, x, "Seidel", eps, n);
-    Check_The_Result(A, x, b);
+    // Check_The_Result(A, x, b);
     return 0;
 }
