@@ -1,8 +1,11 @@
 #include "lab1-1.hpp"
 #include "lab1-2.hpp"
 #include "lab1-3.hpp"
+#include <fstream>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 void Check_The_Result (vector <vector <double>> &A,
                        vector <double> &x,
@@ -19,6 +22,7 @@ void Check_The_Result (vector <vector <double>> &A,
             return;
         }
     }
+    cout << "Решение:" << endl;
     for(double& xi: x)
             cout << xi << endl;
 }
@@ -33,6 +37,20 @@ void Read_SLAU (vector <vector<double>> &A,
     }
 }
 
+void Read_SLAU_from_JSON (vector <vector<double>> &A,
+                          vector <double> &b,
+                          string file_name,
+                          int lab_num,
+                          int& n){
+    std::ifstream file(file_name);
+    json data;
+    file >> data;
+
+    A = data["lab" + to_string(lab_num) + "_A"].get<std::vector<std::vector<double>>>();
+    b = data["lab" + to_string(lab_num) + "_b"].get<std::vector<double>>();
+    n = b.size();
+}
+
 void Read_Matrix (vector <vector<double>> &A,
                 int n){
     for(int i = 0; i < n; i++)
@@ -42,18 +60,30 @@ void Read_Matrix (vector <vector<double>> &A,
 
 int main(){
     int n, eps = 10;
-    cin >> n;
-    vector <vector<double>> A(n, vector<double> (n));
-    vector <double> b(n, 0), x(n, 0);
-    // Read_SLAU(A, b, n);
-    // Read_Matrix(A, n);
-    // Solve_With_LU(A, b, x, n);
-    // Check_The_Result(A, x, b);
-    // cout << endl;
-    // Solve_With_Run_Through(A, b, x, n);
-    // Check_The_Result(A, x, b);
-    // Solve_By_Iterative_Method(A, b, x, "Simple_Iterations", eps, n);
-    // Solve_By_Iterative_Method(A, b, x, "Seidel", eps, n);
-    // Check_The_Result(A, x, b);
+    vector <vector<double>> A;
+    vector <double> b, x;
+
+    cout << "lab1_1" << endl;
+    Read_SLAU_from_JSON(A, b, "input.json", 1, n);
+    x.resize(n, 0);
+    Solve_With_LU(A, b, x, n);
+    Check_The_Result(A, x, b);
+
+    cout << "lab1_2" << endl;
+    Read_SLAU_from_JSON(A, b, "input.json", 2, n);
+    x.resize(n, 0);
+    Solve_With_Run_Through(A, b, x, n);
+    Check_The_Result(A, x, b);
+
+    cout << "lab1_3" << endl;
+    Read_SLAU_from_JSON(A, b, "input.json", 3, n);
+    x.resize(n, 0);
+    cout << "метод простых итераций:" << endl;
+    Solve_By_Iterative_Method(A, b, x, "Simple_Iterations", eps, n);
+    Check_The_Result(A, x, b);
+    cout << "метод Зейделя:" << endl;
+    Solve_By_Iterative_Method(A, b, x, "Seidel", eps, n);
+    Check_The_Result(A, x, b);
+    
     return 0;
 }
