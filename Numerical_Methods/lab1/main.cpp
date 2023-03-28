@@ -1,8 +1,9 @@
+#include <fstream>
+#include "json.hpp"
 #include "lab1-1.hpp"
 #include "lab1-2.hpp"
 #include "lab1-3.hpp"
-#include <fstream>
-#include "json.hpp"
+#include "lab1-4.hpp"
 
 using namespace std;
 using json = nlohmann::json;
@@ -63,19 +64,19 @@ int main(){
     vector <vector<double>> A;
     vector <double> b, x;
 
-    cout << "lab1_1" << endl;
+    cout << "lab1-1" << endl;
     Read_SLAU_from_JSON(A, b, "input.json", 1, n);
     x.resize(n, 0);
     Solve_With_LU(A, b, x, n);
     Check_The_Result(A, x, b);
 
-    cout << "lab1_2" << endl;
+    cout << "lab1-2" << endl;
     Read_SLAU_from_JSON(A, b, "input.json", 2, n);
     x.resize(n, 0);
     Solve_With_Run_Through(A, b, x, n);
     Check_The_Result(A, x, b);
 
-    cout << "lab1_3" << endl;
+    cout << "lab1-3" << endl;
     Read_SLAU_from_JSON(A, b, "input.json", 3, n);
     x.resize(n, 0);
     cout << "метод простых итераций:" << endl;
@@ -85,5 +86,8 @@ int main(){
     Solve_By_Iterative_Method(A, b, x, "Seidel", eps, n);
     Check_The_Result(A, x, b);
     
+    cout << "lab1-4" << endl;
+    Read_SLAU_from_JSON(A, b, "input.json", 4, n);
+    Jacobi_Eigenvalue(A, eps);
     return 0;
 }

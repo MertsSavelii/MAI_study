@@ -63,7 +63,9 @@ void Jacobi_Eigenvalue(const vector <vector <double>> &A,
                        double eps){
     int i_max, j_max;
     double phi;
-    vector <vector <double>> A_k = A, V;
+    vector <vector <double>> A_k = A, V(A.size(), vector<double> (A.size(), 0));
+    for(int i = 0; i < V.size(); i++)
+        V[i][i] = 1;
     vector <double> lambda;
     do
     {
@@ -81,7 +83,7 @@ void Jacobi_Eigenvalue(const vector <vector <double>> &A,
     cout << "Собственные вектора:" << endl;
     for(int j = 0; j < V.size(); j++){
         cout << j << ":" << endl;
-        for(int i = 0; i < V.size(); i++){
-            cout << "\t" << V[i][i] << endl;
-        }
+        for(int i = 0; i < V.size(); i++)
+            cout << "\t" << V[i][j] << endl;
+    }
 }
