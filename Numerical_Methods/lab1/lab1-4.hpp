@@ -6,9 +6,9 @@ using namespace std;
 void Indexes_Max_Elem(const vector<vector<double>>& A,
                       int& i_max,
                       int& j_max) {
-    double a_max = A[0][0];
-    for (int i = 0; i < A.size(); i++) 
-        for (int j = i + 1; j < A.size(); j++) 
+    double a_max = -DBL_MAX;
+    for (int i = 1; i < A.size(); i++) 
+        for (int j = 0; j < i; j++) 
             if (abs(A[i][j]) > a_max) {
                 a_max = abs(A[i][j]);
                 i_max = i;
@@ -53,10 +53,10 @@ vector<vector<double>> Matrix_Multiplication(const vector<vector<double>>& A,
 
 bool End_Of_Iterations(const vector<vector<double>>& A, double eps) {
     double sum = 0.0;
-    for (int i = 0; i < A.size(); i++)
-        for (int j = i + 1; j < A.size(); j++)
+    for (int i = 1; i < A.size(); i++)
+        for (int j = 0; j < i; j++)
             sum += pow(A[i][j], 2);
-    return sqrt(sum) <= eps;
+    return sqrt(sum) <= pow(10, -eps) ? true : false;
 }
 
 void Jacobi_Eigenvalue(const vector <vector <double>> &A,
@@ -67,19 +67,19 @@ void Jacobi_Eigenvalue(const vector <vector <double>> &A,
     for(int i = 0; i < V.size(); i++)
         V[i][i] = 1;
     vector <double> lambda;
-    do
+    while (!End_Of_Iterations(A_k, eps))
     {
-        Indexes_Max_Elem(A, i_max, j_max);
+        Indexes_Max_Elem(A_k, i_max, j_max);
         phi = Get_Phi(A_k[i_max][i_max], A_k[j_max][j_max], A_k[i_max][j_max]);
         vector <vector <double>> U(A.size(), vector<double> (A.size(), 0));
         Initialize_U(U, i_max, j_max, phi);
         vector <vector <double>> U_t = Transpose_Matrix(U);
         A_k = Matrix_Multiplication(U_t, Matrix_Multiplication(A_k, U));
         V = Matrix_Multiplication(V, U);
-    } while (!End_Of_Iterations(A_k, eps));
+    } 
     cout << "Собственные значения:" << endl;
     for(int i = 0; i < A_k.size(); i++)
-        cout << "λ" << i << "=" << A_k[i][i] << endl;
+        cout << "\tλ" << i << " = " << A_k[i][i] << endl;
     cout << "Собственные вектора:" << endl;
     for(int j = 0; j < V.size(); j++){
         cout << j << ":" << endl;

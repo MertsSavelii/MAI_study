@@ -25,7 +25,7 @@ void Check_The_Result (vector <vector <double>> &A,
     }
     cout << "Решение:" << endl;
     for(double& xi: x)
-            cout << xi << endl;
+            cout << "\t" << xi << endl;
 }
 
 void Read_SLAU (vector <vector<double>> &A,
