@@ -4,6 +4,7 @@
 #include "lab1-2.hpp"
 #include "lab1-3.hpp"
 #include "lab1-4.hpp"
+#include "lab1-5.hpp"
 
 using namespace std;
 using json = nlohmann::json;
@@ -89,5 +90,9 @@ int main(){
     cout << "lab1-4" << endl;
     Read_SLAU_from_JSON(A, b, "input.json", 4, n);
     Jacobi_Eigenvalue(A, eps);
+
+    cout << "lab1-5" << endl;
+    Read_SLAU_from_JSON(A, b, "input.json", 5, n);
+    Get_QR(A);
     return 0;
 }
