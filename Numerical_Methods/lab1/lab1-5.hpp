@@ -1,18 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+double Euclidean_norm(std::vector<double>& v, int i)
+{
+    double res = 0;
+    for (; i < v.size(); i++)
+        res += v[i] * v[i];
+    return  sqrt(res);
+}
+
+double sign(double a)
+{
+    return a > 0 ? 1 : -1;  
+}
+
 vector<double> V(vector<double> &A_j, int j)
 {
     vector<double> v(A_j.size(), 0);
-    // v[j] += A_j[j]*A_j[j];
+    double norm = Euclidean_norm(A_j, j);
+    v[j] = A_j[j] + sign(A_j[j])*norm;
     for (int i = j+1; i < A_j.size(); i++)
-    {
-        v[j] += A_j[i]*A_j[i];
         v[i] = A_j[i];
-    }
-    v[j] = sqrt(v[j]);
-    v[j] = A_j[j] > 0 ? v[j] : -v[j];   //sign
-    v[j] = A_j[j] + v[j];
     return v;
 }
 
@@ -23,6 +31,7 @@ double VTV (vector<double>& v)
         vtv += v_i*v_i;
     return vtv;
 }
+
 vector<vector<double>> VVT (vector<double> &v)
 {
     vector<vector<double>> vvt(v.size(), vector<double>(v.size(), 0));
@@ -42,12 +51,11 @@ vector<vector<double>> Get_H_for_j_colum (vector<double> &A_j, int j)
         H[i][i] = 1;    // теперь это единичная матрица
     for(int i = 0; i < v.size(); i++)
         for(int j = 0; j < v.size(); j++)
-            H[i][j] -= 2*vvt[i][j]/vtv;
+            H[i][j] -= (2/vtv)*vvt[i][j];
     return H;
 }
 
-vector<vector<double>> Matrix_Multip(const vector<vector<double>>& A,
-                                             const vector<vector<double>>& B) {
+vector<vector<double>> Matrix_Multip(const vector<vector<double>>& A, const vector<vector<double>>& B) {
     int n = A.size();
     int m = B[0].size();
     int p = B.size();
@@ -73,5 +81,5 @@ pair<vector<vector<double>>, vector<vector<double>>> Get_QR(vector<vector<double
         R = Matrix_Multip(H, R);
         Q = Matrix_Multip(Q, H);
     }
-    return pair(Q, R);
+    return {Q, R};
 }
