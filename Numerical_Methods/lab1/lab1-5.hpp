@@ -75,12 +75,33 @@ pair<vector<vector<double>>, vector<vector<double>>> Get_QR(vector<vector<double
     vector<vector<double>> Q(A.size(), vector<double>(A.size(), 0));
     for(int i = 0; i < Q.size(); i++)
         Q[i][i] = 1;
-    for(int j = 0; j < A.size()-1; j++)
+    for(int j = 0; j < R.size()-1; j++)
     {
-        vector<double> A_j = {A[0][j], A[1][j], A[2][j]}; 
+        vector<double> A_j = {R[0][j], R[1][j], R[2][j]}; 
         vector<vector<double>> H = Get_H_for_j_colum(A_j, j);
         R = Matrix_Multip(H, R);
         Q = Matrix_Multip(Q, H);
     }
     return {Q, R};
+}
+
+double under_diag_norm(vector<vector<double>> matrix)
+{
+    double sum = 0;
+    for (int i = 0; i <  matrix.size(); ++i)
+        for (int j = 0; j+1 < i; ++j)
+            sum += matrix[i][j] * matrix[i][j];
+    return sqrt(sum);
+}
+
+void Solve_by_QR(vector<vector<double>> &A, double eps)
+{
+    vector<vector<double>> res = A;
+    while (under_diag_norm(res) > eps) {
+        auto qr_pair = Get_QR(res);
+        res = Matrix_Multip(qr_pair.second, qr_pair.first);
+    }
+    cout << "Собственные значения матрицы:" << endl;
+    for (int i = 0; i < res.size(); ++i)
+        cout << '\t' << res[i][i]  << endl;
 }

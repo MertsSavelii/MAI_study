@@ -93,6 +93,6 @@ int main(){
 
     cout << "lab1-5" << endl;
     Read_SLAU_from_JSON(A, b, "input.json", 5, n);
-    Get_QR(A);
+    Solve_by_QR(A, 0.01);
     return 0;
 }
