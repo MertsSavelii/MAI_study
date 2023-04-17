@@ -77,7 +77,8 @@ pair<vector<vector<double>>, vector<vector<double>>> Get_QR(vector<vector<double
         Q[i][i] = 1;
     for(int j = 0; j < A.size()-1; j++)
     {
-        vector<vector<double>> H = Get_H_for_j_colum(A[j], j);
+        vector<double> A_j = {A[0][j], A[1][j], A[2][j]}; 
+        vector<vector<double>> H = Get_H_for_j_colum(A_j, j);
         R = Matrix_Multip(H, R);
         Q = Matrix_Multip(Q, H);
     }
