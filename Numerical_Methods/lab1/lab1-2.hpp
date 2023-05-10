@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 void Read_Tridiagonal_Matrix_From_Normal_Matrix 

@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 void Checking_Diagonal_Predominance_Of_Matrix 

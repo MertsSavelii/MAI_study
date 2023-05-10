@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 double Euclidean_norm(std::vector<double>& v, int i)

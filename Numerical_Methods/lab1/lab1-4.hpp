@@ -1,12 +1,14 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
-#define M_PI		3.14159265358979323846
+// #define M_PI		3.14159265358979323846
 
 void Indexes_Max_Elem(const vector<vector<double>>& A,
                       int& i_max,
                       int& j_max) {
-    double a_max = -DBL_MAX;
+    double a_max = -__DBL_MAX__;
     for (int i = 1; i < A.size(); i++) 
         for (int j = 0; j < i; j++) 
             if (abs(A[i][j]) > a_max) {
@@ -59,27 +61,31 @@ bool End_Of_Iterations(const vector<vector<double>>& A, double eps) {
     return sqrt(sum) <= pow(10, -eps) ? true : false;
 }
 
-void Jacobi_Eigenvalue(const vector <vector <double>> &A,
+void Jacobi_Eigenvalue(vector<vector<double>> lambda,
+                       vector<vector<double>> V,
+                       const vector <vector <double>> &A,
                        double eps){
     int i_max, j_max;
     double phi;
-    vector <vector <double>> A_k = A, V(A.size(), vector<double> (A.size(), 0));
+    vector<vector<double>> V_(A.size(), vector<double> (A.size(), 0));
+    lambda = A;
+    V = V_;
     for(int i = 0; i < V.size(); i++)
         V[i][i] = 1;
-    vector <double> lambda;
-    while (!End_Of_Iterations(A_k, eps))
+    // vector <double> lambda;
+    while (!End_Of_Iterations(lambda, eps))
     {
-        Indexes_Max_Elem(A_k, i_max, j_max);
-        phi = Get_Phi(A_k[i_max][i_max], A_k[j_max][j_max], A_k[i_max][j_max]);
+        Indexes_Max_Elem(lambda, i_max, j_max);
+        phi = Get_Phi(lambda[i_max][i_max], lambda[j_max][j_max], lambda[i_max][j_max]);
         vector <vector <double>> U(A.size(), vector<double> (A.size(), 0));
         Initialize_U(U, i_max, j_max, phi);
         vector <vector <double>> U_t = Transpose_Matrix(U);
-        A_k = Matrix_Multiplication(U_t, Matrix_Multiplication(A_k, U));
+        lambda = Matrix_Multiplication(U_t, Matrix_Multiplication(lambda, U));
         V = Matrix_Multiplication(V, U);
     } 
     cout << "Собственные значения:" << endl;
-    for(int i = 0; i < A_k.size(); i++)
-        cout << "\tλ" << i << " = " << A_k[i][i] << endl;
+    for(int i = 0; i < lambda.size(); i++)
+        cout << "\tλ" << i << " = " << lambda[i][i] << endl;
     cout << "Собственные вектора:" << endl;
     for(int j = 0; j < V.size(); j++){
         cout << j << ":" << endl;
