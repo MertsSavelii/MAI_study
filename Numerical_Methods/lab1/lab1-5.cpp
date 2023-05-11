@@ -92,18 +92,18 @@ double under_diag_norm(vector<vector<double>> matrix)
 {
     double sum = 0;
     for (int i = 0; i <  matrix.size(); ++i)
-        for (int j = 0; j+1 < i; ++j)
+        for (int j = 0; j < i; ++j)
             sum += matrix[i][j] * matrix[i][j];
     return sqrt(sum);
 }
 
 void Checking_Results(vector<vector<double>> A, vector<double> lambda, vector<vector<double>> V)
 {
-    cout << "проверка результатов" << endl;
+    cout << "Proverca resultatov" << endl;
     int n = lambda.size();
 
     for(int num = 0; num < n; num++) {
-        cout << endl << "номер собственного значения:" << num << endl;
+        cout << endl << "nomer sobstvennogo znacheniya:" << num << endl;
 
         vector<double> V_j (n, 0);
         for(int i = 0; i < n; i++)
@@ -132,12 +132,12 @@ void Solve_by_QR(vector<vector<double>> &A, double eps)
     while (under_diag_norm(res) > eps) {
         auto qr_pair = Get_QR(res);
         res = Matrix_Multip(qr_pair.second, qr_pair.first);
-        V = Matrix_Multip(qr_pair.first, V);
+        V = Matrix_Multip(V, qr_pair.first);
     }
-    cout << "Собственные значения матрицы:" << endl;
+    cout << "Sobstvennie znacheniya:" << endl;
     for (int i = 0; i < res.size(); ++i)
         cout << '\t' << res[i][i]  << endl;
-    cout << "Собственные вектора:" << endl;
+    cout << "Sobstvennie vectora:" << endl;
     for(int j = 0; j < V.size(); j++){
         cout << j << ":" << endl;
         for(int i = 0; i < V.size(); i++)
