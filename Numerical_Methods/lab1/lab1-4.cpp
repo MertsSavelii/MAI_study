@@ -5,7 +5,7 @@
 #include <cmath>
 using namespace std;
 
-#define M_PI		3.14159265358979323846
+// #define M_PI		3.14159265358979323846
 
 double EPS = 0.01;
 
@@ -77,11 +77,11 @@ vector<vector<double>> Initialize_U(const vector<vector<double>> A)
 
 void Checking_Results(vector<vector<double>> A, vector<double> lambda, vector<vector<double>> V)
 {
-    cout << "проверка результатов" << endl;
+    cout << "Proverca resultatov" << endl;
     int n = lambda.size();
 
     for(int num = 0; num < n; num++) {
-        cout << endl << "номер собственного значения:" << num << endl;
+        cout << endl << "nomer sobstvennogo znacheniya:" << num << endl;
 
         vector<double> V_j (n, 0);
         for(int i = 0; i < n; i++)
@@ -119,10 +119,10 @@ void Jacobi_Eigenvalue(vector<vector<double>> A)
     for(int i = 0; i < A_k.size(); i++)
         lambda[i] = A_k[i][i];
     
-    cout << "Собственные значения:" << endl;
+    cout << "Sobstvennie znacheniya:" << endl;
     for(int i = 0; i < lambda.size(); i++)
         cout << "\tλ" << i << " = " << lambda[i] << endl;
-    cout << "Собственные вектора:" << endl;
+    cout << "Sobstvennie vectora:" << endl;
     for(int j = 0; j < V.size(); j++){
         cout << j << ":" << endl;
         for(int i = 0; i < V.size(); i++)
